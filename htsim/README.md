@@ -24,8 +24,10 @@ pip install -r requirements.txt
 Then compile the project from the `sim/` folder by running
 
 ```bash
-cmake -S . -B build # To configure the cmake project
-cmake --build build --parallel # To build the project
+# To configure the cmake project
+cmake -S . -B build
+# To build the project
+cmake --build build --parallel 
 ```
 
 ## Run Validations
