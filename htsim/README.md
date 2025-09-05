@@ -5,7 +5,7 @@ In this tutorial we will be using [UEC htsim](https://github.com/ultraethernet/u
 To participate in the hands-on session follow the instructions below that help you install, build and then run experiments with htsim. 
 
 
-# Getting Started
+## Getting Started
 
 htsim is written in C++, and has no major dependencies.  
 It should compile and run with g++ or clang on MacOS or Linux.  
@@ -54,7 +54,7 @@ Using binary: ./htsim_uec
 
 There are other validation scripts you can similarly run such as validate_uec_rcv.txt (which uses the receiver-driven congestion control scheme) and validate_load_balancing_failed_snd.txt
 
-# Running Custom Scenarios
+## Running Custom Scenarios
 
 The UEC simulation binary is called `htsim_uec` and is located in `sim/datacenter/htsim_uec`.
 To run a custom setup, a traffic/connection matrix must be provided.
