@@ -30,7 +30,7 @@ cmake -S . -B build
 cmake --build build --parallel 
 ```
 
-##  Step 1: Run a validation suite
+##  Running a validation suite
 
 From the `sim/datacenter/` folder, run:
 
@@ -54,7 +54,7 @@ Using binary: ./htsim_uec
 
 There are other validation scripts you can similarly run such as validate_uec_rcv.txt (which uses the receiver-driven congestion control scheme) and validate_load_balancing_failed_snd.txt
 
-# Run Custom Scenarios
+# Running Custom Scenarios
 
 The UEC simulation binary is called `htsim_uec` and is located in `sim/datacenter/htsim_uec`.
 To run a custom setup, a traffic/connection matrix must be provided.
@@ -135,7 +135,21 @@ To use a custom topology, we specify it using the -topo parameter.
 ```
 The `datacenter/topologies` folder contains more examples of topologies.
 
-## 
+## Exercise 1: How many paths do you need for good performance?
+To understand the effect of collisions, we will be using a fully provisioned leaf spine topology with 1024 nodes. We can specify the number of paths each connection is allowed to use by passing the -paths parameter. The default value is 64.
+
+For instance, to run with 128 paths per connection, you can run.
+```
+./htsim_uec -topo topologies/leaf_spine_1024.topo -tm connection_matrices/perm_1024n_1024c_0u_2000000b.cm -paths 128 | grep finished > 128.dat
+```
+To parse the results, we have filtered for output lines containing the word "finished" and saved them to 128.dat file.
+
+To visualise the CDF of the flow completion times, you can use gnuplot (or your favourite visualisation tool):
+plot "128.dat" using 9:($0/10.24)
+
+Task: vary the number of paths from 1 to a large value and plot the evolution of the tail flow completion time. How many paths are sufficient before performance stops improving?
+
+## Exercise 2: Which load balancing algorithm is better?
 
 
 ## Default Parameters
