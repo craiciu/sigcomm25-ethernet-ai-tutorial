@@ -1,10 +1,9 @@
 # Overview
 
-In this tutorial we will be using [UEC htsim](https://github.com/ultraethernet/uet-htsim) which is based on the open source htsim Network simulator.
+In this tutorial we will be using [UEC htsim](https://github.com/ultraethernet/uet-htsim) which in turn is based on the open source htsim network simulator.
 
-## About htsim Network Simulator
+To participate in the hands-on session follow the instructions below that help you install, build and then run experiments with htsim. 
 
-htsim is a high-performance discrete event simulator, inspired by ns2, but much faster, primarily intended to examine congestion control algorithm behaviour.  It was originally written by [Mark Handley](http://www0.cs.ucl.ac.uk/staff/M.Handley/) to allow [Damon Wishik](https://www.cl.cam.ac.uk/~djw1005/) to examine TCP stability issues when large numbers of flows are multiplexed.  It was extended by [Costin Raiciu](http://nets.cs.pub.ro/~costin/) to examine [Multipath TCP performance](http://nets.cs.pub.ro/~costin/files/mptcp-nsdi.pdf) during the MPTCP standardization process, and models of datacentre networks were added to [examine multipath transport](http://nets.cs.pub.ro/~costin/files/mptcp_dc_sigcomm.pdf) in a variety of datacentre topologies.  [NDP](http://nets.cs.pub.ro/~costin/files/ndp.pdf) was developed using htsim, and simple models of DCTCP, DCQCN were added for comparison.  Later htsim was adopted by Correct Networks (now part of Broadcom) to develop [EQDS](http://nets.cs.pub.ro/~costin/files/eqds.pdf), and switch models were improved to allow a variety of forwarding methods.  Support for a simple RoCE model, PFC, Swift and HPCC were added.
 
 # Getting Started
 
@@ -123,20 +122,7 @@ The repository layout is as follows:
 In addition to the UEC congestion management code, the repository contains a wide range of other network protocols.
 These are currently not maintained and there is no expectation for any of them to work correctly or at all.
 
+## About htsim Network Simulator
+htsim is a high-performance discrete event simulator, inspired by ns2, but much faster, primarily intended to examine congestion control algorithm behaviour.  It was originally written by [Mark Handley](http://www0.cs.ucl.ac.uk/staff/M.Handley/) to allow [Damon Wishik](https://www.cl.cam.ac.uk/~djw1005/) to examine TCP stability issues when large numbers of flows are multiplexed.  It was extended by [Costin Raiciu](http://nets.cs.pub.ro/~costin/) to examine [Multipath TCP performance](http://nets.cs.pub.ro/~costin/files/mptcp-nsdi.pdf) during the MPTCP standardization process, and models of datacentre networks were added to [examine multipath transport](http://nets.cs.pub.ro/~costin/files/mptcp_dc_sigcomm.pdf) in a variety of datacentre topologies.  [NDP](http://nets.cs.pub.ro/~costin/files/ndp.pdf) was developed using htsim, and simple models of DCTCP, DCQCN were added for comparison.  Later htsim was adopted by Correct Networks (now part of Broadcom) to develop [EQDS](http://nets.cs.pub.ro/~costin/files/eqds.pdf), and switch models were improved to allow a variety of forwarding methods.  Support for a simple RoCE model, PFC, Swift and HPCC were added.
 
-# Development
-
-The UEC continues to use htsim for its standards development needs. 
-This public repository aims to enable the public to evaluate and investigate UEC's congestion control mechanisms.
-Bug fixes and related discussions are welcome in the public repository.
-
-Before creating PRs, please run `sim/datacenter/commit_check.sh` and include its results in the PR.
-
-To enable the tests (will pull `googletest` as a dependency), run
-```bash
-cmake -S . -B build -DENABLE_TESTS=ON
-cmake --build build --parallel # To build the project
-cd build
-ctest
-```
 
