@@ -136,7 +136,7 @@ To use a custom topology, we specify it using the -topo parameter.
 The `datacenter/topologies` folder contains more examples of topologies.
 
 ## Exercise 1: How many paths do you need for good performance?
-To understand the effect of collisions, we will be using a fully provisioned leaf spine topology with 1024 nodes. We can specify the number of paths each connection is allowed to use by passing the -paths parameter. The default value is 64.
+To understand the effect of collisions, we will be using a fully provisioned leaf spine topology with 1024 nodes and a permutation traffic matrix. We can specify the number of paths each connection is allowed to use by passing the -paths parameter. The default value is 64.
 
 For instance, to run with 128 paths per connection, you can run.
 ```
@@ -147,10 +147,27 @@ To parse the results, we have filtered for output lines containing the word "fin
 To visualise the CDF of the flow completion times, you can use gnuplot (or your favourite visualisation tool):
 plot "128.dat" using 9:($0/10.24)
 
-Task: vary the number of paths from 1 to a large value and plot the evolution of the tail flow completion time. How many paths are sufficient before performance stops improving?
+__Task__: vary the number of paths from 1 to a large value and plot the evolution of the tail flow completion time. How many paths are sufficient before performance stops improving?
 
 ## Exercise 2: Which load balancing algorithm is better?
 
+The UEC model supports a number of load balancing algorithms including Oblivious, Bitmap, REPS and the combination of REPS and Bitmap (which is the default). You can change the load balancing algorithm by passing the '-load_balancing_algo' algorithm as follows.
+
+```
+./htsim_uec -topo topologies/leaf_spine_1024.topo -tm connection_matrices/perm_1024n_1024c_0u_2000000b.cm -paths 128 -load_balancing_algo reps| grep finished >  128_reps.dat
+```
+
+By default, the UEC receiver generates one cumulative ACK at for every 16KB of data received. This reduces the performance of the REPS algorithm, and can influence other load balancing algorithms too. To force one SACK per received packet you can pass the -sack_threshold 4000 in the command line.
+
+Use the leaf-spine topology for this task (-topo topologies/leaf_spine_1024.topo)
+
+__Task__: Draw CDF of flow completion times for bitmap, REPS (with the default 16KB SACK threshold) and with SACK per packet), as well as for the mixed (bitmap and REPS). 
+
+Also test the oblivious load balancing algorithm with default queue sizes, but also with larger queue sizes (hint change the maximum queue sizes per port by passing the -q followed by the queue size in MTU. By default, the queue sizes are set to 1BDP (around 40 packets for 100Gbps). Try setting it to 100 packets.  
+
+__Task__: Repeat the task above but introduce a soft failure by passing "-failed 1" to the simulator. This will drop one link from each TOR to a spine to 25% capacity, simulating an asymmetric network. 
+
+__Task__: Repeat the task above but use a three tier topology instead that has the same number of nodes. Hint: you can use a custom three tier topology file, or omit the -topo parameter which makes the simulator default to a 3 tier fully provisioned topology.
 
 ## Default Parameters
 
