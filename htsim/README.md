@@ -169,6 +169,28 @@ __Task__: Repeat the task above but introduce a soft failure by passing "-failed
 
 __Task__: Repeat the task above but use a three tier topology instead that has the same number of nodes. Hint: you can use a custom three tier topology file, or omit the -topo parameter which makes the simulator default to a 3 tier fully provisioned topology.
 
+## Exercise 3: build a new load balancing algorithm
+
+We have created a stub load balancing algorithm for you to play with in sim/lb_sigcomm.h and sim/lb_sigcomm.cpp
+The algorithm can be enabled by passing -load_balancing_algo sigcomm to the simulator.
+
+The algorithm has a constructor which initializes local state (if any), and two methods which are called by the transport protocol:
+
+```
+    SigcommLoadBalancing(uint16_t no_of_paths, bool debug);
+```
+The no_of_paths parameter specifies how many paths can be concurently used by the load balancer at any point in time. You can ignore the debug flag.
+
+```
+    void processEv(uint16_t path_id, PathFeedback feedback) override;
+```
+If called whenever an ACK, NACK is received or a timeout fires for the given path_id. The PathFeedback specifies the event (can be PATH_GOOD, PATH_ECN, PATH_NACK or PATH_TIMEOUT. If you are building a stateful load balancer, use this information to update you local path state. 
+
+```
+    uint16_t nextEntropy(uint64_t seq_sent, uint64_t cur_cwnd_in_pkts) override;
+```
+This is called when a packet is being prepared to be sent. Use local state to select the best path!
+
 ## Default Parameters
 
 If no parameters are provided, the defaults aim to follow the UEC specification defaults where it makes sense:
