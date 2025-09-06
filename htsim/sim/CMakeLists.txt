@@ -119,6 +119,7 @@ set(SOURCE_FILES
     uec_logger.cpp
     uecpacket.cpp
     uec_mp.cpp
+    sigcomm_lb.cpp
     uec_pdcses.cpp
 )
 

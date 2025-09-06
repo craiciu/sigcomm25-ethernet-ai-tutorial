@@ -17,6 +17,7 @@
 #include "uec_base.h"
 #include "uec.h"
 #include "uec_mp.h"
+#include "sigcomm_lb.h"
 #include "uec_pdcses.h"
 #include "compositequeue.h"
 #include "topology.h"
@@ -85,7 +86,7 @@ int main(int argc, char **argv) {
     simtime_picosec switch_latency = timeFromUs((uint32_t)0);
     queue_type qt = COMPOSITE;
 
-    enum LoadBalancing_Algo { BITMAP, REPS, REPS_LEGACY, OBLIVIOUS, MIXED};
+    enum LoadBalancing_Algo { BITMAP, REPS, REPS_LEGACY, OBLIVIOUS, MIXED, SIGCOMM};
     LoadBalancing_Algo load_balancing_algo = MIXED;
 
     bool log_sink = false;
@@ -231,6 +232,10 @@ int main(int argc, char **argv) {
             else if (!strcmp(argv[i+1], "mixed")) {
                 load_balancing_algo = MIXED;
             }
+            else if (!strcmp(argv[i+1], "sigcomm")) {
+                load_balancing_algo = SIGCOMM;
+            }
+
             else {
                 cout << "Unknown load balancing algorithm of type " << argv[i+1] << ", expecting bitmap, reps or reps2" << endl;
                 exit_error(argv[0]);
@@ -812,6 +817,8 @@ int main(int argc, char **argv) {
                 mp = make_unique<UecMpOblivious>(path_entropy_size, UecSrc::_debug);
             } else if (load_balancing_algo == MIXED){
                 mp = make_unique<UecMpMixed>(path_entropy_size, UecSrc::_debug);
+            } else if (load_balancing_algo == SIGCOMM){
+                mp = make_unique<SigcommLoadBalancing>(path_entropy_size, UecSrc::_debug);
             } else {
                 cout << "ERROR: Failed to set multipath algorithm, abort." << endl;
                 abort();
