@@ -169,7 +169,7 @@ __Task__: Repeat the task above but introduce a soft failure by passing "-failed
 
 __Task__: Repeat the task above but use a three tier topology instead that has the same number of nodes. Hint: you can use a custom three tier topology file, or omit the -topo parameter which makes the simulator default to a 3 tier fully provisioned topology.
 
-## Exercise 3: build a new load balancing algorithm
+## Exercise 3: Build a new load balancing algorithm
 
 We have created a stub load balancing algorithm for you to play with in sim/lb_sigcomm.h and sim/lb_sigcomm.cpp
 The algorithm can be enabled by passing -load_balancing_algo sigcomm to the simulator.
@@ -190,6 +190,10 @@ If called whenever an ACK, NACK is received or a timeout fires for the given pat
     uint16_t nextEntropy(uint64_t seq_sent, uint64_t cur_cwnd_in_pkts) override;
 ```
 This is called when a packet is being prepared to be sent. Use local state to select the best path!
+
+__Task__: Design and implement a new load balancing algorithm by completing the above functions.
+
+__Task__: Measure the FCT of your algorithm to the existing algorithms such as REPS or Bitmap for a permutation traffic matrix (e.g. similar to the tasks at Exercise 2). 
 
 ## Default Parameters
 
