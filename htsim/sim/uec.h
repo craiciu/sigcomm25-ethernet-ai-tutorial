@@ -215,6 +215,8 @@ public:
     enum Sender_CC { DCTCP, NSCC, CONSTANT};
     static Sender_CC _sender_cc_algo;
 
+    std::unordered_map<uint64_t, uint16_t> hashmap_entropy;
+
     static bool _disable_quick_adapt;
     static uint8_t _qa_gate;
 

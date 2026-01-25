@@ -2085,6 +2085,7 @@ mem_b UecSrc::sendNewPacket(const Route& route) {
 
     uint16_t ev = _mp->nextEntropy(_highest_sent, (uint64_t)_cwnd/_mss);
     p->set_pathid(ev);
+    hashmap_entropy[p->epsn()] = ev;
     p->flow().logTraffic(*p, *this, TrafficLogger::PKT_CREATESEND);
 
     if (_backlog == 0 || (_receiver_based_cc && _credit <= 0) || ( _sender_based_cc &&  (_in_flight + full_pkt_size) >= _cwnd )) 
@@ -2130,6 +2131,7 @@ mem_b UecSrc::sendRtxPacket(const Route& route) {
 
     uint16_t ev = _mp->nextEntropy(_highest_sent, (uint64_t)_cwnd/_mss);
     p->set_pathid(ev);
+    hashmap_entropy[p->epsn()] = ev;
     p->flow().logTraffic(*p, *this, TrafficLogger::PKT_CREATESEND);
 
     createSendRecord(seq_no, full_pkt_size);
@@ -2330,7 +2332,7 @@ void UecSrc::rtxTimerExpired() {
 
     // Trigger multipathing feedback for timeout. Unless we save EVs on the sender per packet, we will 
     // not be able to recover the original timed-out ev.
-    _mp->processEv(UecMultipath::UNKNOWN_EV, UecMultipath::PATH_TIMEOUT);
+    _mp->processEv(hashmap_entropy[seqno], UecMultipath::PATH_TIMEOUT);
 
     // update flightsize?
 
